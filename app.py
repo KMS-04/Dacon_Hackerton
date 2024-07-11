@@ -1,9 +1,13 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 app = Flask(__name__)
 
 @app.route('/')
 def hello():
     return 'Hello World!'
+
+@app.route('/hello')
+def hellohtml():
+    return render_template("hello.html")
 
 @app.route('/method', methods=['GET', 'POST'])
 def method():
