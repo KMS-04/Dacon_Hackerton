@@ -8,6 +8,8 @@ pip list
 2. 가상 환경 만들기
 ```python
 python -m venv myenv(파일이름)
+```
+```python
 .\myenv\Scripts\activate
 ```
 
