@@ -1,5 +1,5 @@
 /home/user/Projects/flask-tutorial
-├── flaskr/
+├── app/
 │   ├── __init__.py
 │   ├── db.py
 │   ├── schema.sql
@@ -26,3 +26,6 @@
 ├── .venv/
 ├── pyproject.toml
 └── MANIFEST.in
+
+설치된 라이브러리
+flask, pymysql
