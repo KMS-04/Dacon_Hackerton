@@ -1,4 +1,4 @@
-## 가상 환경 설치
+## 가상 환경 설치(visual studio code용)
 
 1. 설치 리스트 확인
 ```python
