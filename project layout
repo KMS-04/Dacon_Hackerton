@@ -29,3 +29,4 @@
 
 설치된 라이브러리
 flask, pymysql
+python-dotenv (api key 보관)
