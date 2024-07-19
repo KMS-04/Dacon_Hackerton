@@ -2,6 +2,8 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 class GptAPI():
     def __init__(self, model, client):
         self.messages = []
@@ -26,7 +28,9 @@ class GptAPI():
 
         self.messages.append({"role": "system", "content": result})
         
-api_key = os.environ.get('API_KEY')
-model = "gpt-3.5-turbo"
+model = "gpt-4-turbo"
+
+api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=api_key)
+
 gpt = GptAPI(model, client)
