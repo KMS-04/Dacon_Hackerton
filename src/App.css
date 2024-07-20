@@ -6,20 +6,38 @@
 }
 
 .legal-text {
-  flex: 1;
+  position: relative; /* 자식 요소를 절대 위치로 배치할 수 있게 설정 */
+  width: 50%; /* 전체 화면의 절반 */
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   padding: 20px;
-  overflow-y: auto; /* 내용이 길어질 때 스크롤이 생기도록 설정 */
-  background-color: #f8f9fa;
+  background-color: #f8f9fa; /* 배경 색상 */
+  box-sizing: border-box; /* 패딩을 포함하여 전체 너비 계산 */
 }
 
 .text-content {
+  flex: 1;
+  padding-left: 220px; /* 카테고리 버튼과 목록을 위한 여백 */
   overflow-y: auto; /* 내용이 길어질 때 스크롤이 생기도록 설정 */
 }
 
 .categories {
-  margin-bottom: 20px;
+  position: absolute; /* 카테고리 목록을 절대 위치로 배치 */
+  top: 60px; /* 상단에서 60px 떨어진 위치 (버튼 아래) */
+  left: 20px; /* 왼쪽에서 20px 떨어진 위치 */
+  width: 200px;
+  background-color: #f8f9fa; /* 배경 색상 */
+  padding: 10px;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
+  max-height: 0; /* 처음에는 숨기기 */
+  opacity: 0; /* 처음에는 숨기기 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+}
+
+.categories.visible {
+  max-height: 500px; /* 카테고리가 보일 때 최대 높이 */
+  opacity: 1; /* 카테고리가 보일 때 보이기 */
 }
 
 .categories h3 {
@@ -34,18 +52,54 @@
 
 .categories li {
   cursor: pointer;
-  padding: 5px 10px;
+  padding: 10px;
   margin-bottom: 5px;
   border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
-.categories li:hover, .categories li.active {
-<<<<<<< HEAD
-  background-color:  #005B5C;
-=======
-  background-color: #005B5C;
->>>>>>> 0224b24d47bc523d4c2e6a67f2a607924c7bae70
-  color: #fff;
+.categories li:hover {
+  background-color: #e9ecef; /* 호버 시 배경 색상 */
+}
+
+.categories li.active {
+  background-color: #005B5C; /* 활성화된 카테고리 배경 색상 */
+  color: #fff; /* 텍스트 색상 */
+}
+
+.toggle-categories {
+  position: absolute;
+  top: 20px; /* 상단에서 20px 떨어진 위치 */
+  left: 20px; /* 왼쪽에서 20px 떨어진 위치 */
+  background-color: #005B5C; /* 버튼 배경 색상 */
+  color: #fff; /* 버튼 텍스트 색상 */
+  border: none;
+  border-radius: 4px;
+  padding: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10; /* 다른 요소 위에 위치하도록 설정 */
+}
+
+.arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 5px solid #fff; /* 기본적으로 아래 방향 화살표 */
+  transition: border-width 0.3s ease;
+}
+
+.arrow.down {
+  border-top: 10px solid #fff; /* 아래로 향하는 화살표 */
+}
+
+.arrow.up {
+  border-bottom: 10px solid #fff; /* 위로 향하는 화살표 */
+  border-top: 0; /* 위쪽 테두리 제거 */
 }
 
 .chatbot {
@@ -88,11 +142,7 @@
 }
 
 .chat-bubble.user {
-<<<<<<< HEAD
-  background-color:  #005B5C;
-=======
   background-color: #005B5C;
->>>>>>> 0224b24d47bc523d4c2e6a67f2a607924c7bae70
   color: white;
   border-bottom-right-radius: 0;
 }
@@ -104,11 +154,7 @@
   right: -10px;
   border-width: 10px 0 10px 10px;
   border-style: solid;
-<<<<<<< HEAD
-  border-color: transparent transparent transparent  #005B5C;
-=======
   border-color: transparent transparent transparent #005B5C;
->>>>>>> 0224b24d47bc523d4c2e6a67f2a607924c7bae70
 }
 
 .chat-bubble.bot {
@@ -146,11 +192,7 @@
 
 .chat-input button {
   padding: 10px 20px;
-<<<<<<< HEAD
-  background-color:  #005B5C;
-=======
   background-color: #005B5C;
->>>>>>> 0224b24d47bc523d4c2e6a67f2a607924c7bae70
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -159,9 +201,5 @@
 }
 
 .chat-input button:hover {
-<<<<<<< HEAD
-  background-color: #0056b3;
-=======
   background-color: #004547;
->>>>>>> 0224b24d47bc523d4c2e6a67f2a607924c7bae70
 }
