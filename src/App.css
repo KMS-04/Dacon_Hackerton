@@ -40,7 +40,11 @@
 }
 
 .categories li:hover, .categories li.active {
+<<<<<<< HEAD
   background-color:  #005B5C;
+=======
+  background-color: #005B5C;
+>>>>>>> 0224b24d47bc523d4c2e6a67f2a607924c7bae70
   color: #fff;
 }
 
@@ -84,7 +88,11 @@
 }
 
 .chat-bubble.user {
+<<<<<<< HEAD
   background-color:  #005B5C;
+=======
+  background-color: #005B5C;
+>>>>>>> 0224b24d47bc523d4c2e6a67f2a607924c7bae70
   color: white;
   border-bottom-right-radius: 0;
 }
@@ -96,7 +104,11 @@
   right: -10px;
   border-width: 10px 0 10px 10px;
   border-style: solid;
+<<<<<<< HEAD
   border-color: transparent transparent transparent  #005B5C;
+=======
+  border-color: transparent transparent transparent #005B5C;
+>>>>>>> 0224b24d47bc523d4c2e6a67f2a607924c7bae70
 }
 
 .chat-bubble.bot {
@@ -134,7 +146,11 @@
 
 .chat-input button {
   padding: 10px 20px;
+<<<<<<< HEAD
   background-color:  #005B5C;
+=======
+  background-color: #005B5C;
+>>>>>>> 0224b24d47bc523d4c2e6a67f2a607924c7bae70
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -143,5 +159,9 @@
 }
 
 .chat-input button:hover {
+<<<<<<< HEAD
   background-color: #0056b3;
+=======
+  background-color: #004547;
+>>>>>>> 0224b24d47bc523d4c2e6a67f2a607924c7bae70
 }

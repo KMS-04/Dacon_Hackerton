@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+//
+>>>>>>> 0224b24d47bc523d4c2e6a67f2a607924c7bae70
 import { render, screen } from '@testing-library/react';
 import App from './App';
 

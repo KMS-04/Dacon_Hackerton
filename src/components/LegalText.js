@@ -7,9 +7,15 @@ const LegalText = () => {
 
   // 예시 법률 데이터
   const legalDocuments = [
+<<<<<<< HEAD
     { id: 1, title: '제 1조', category: '근로 기준법', content: '법률 문서 내용 이 법은 헌법에 따라 근로조건의 기준을 정함으로써 근로자의 기본적 생활을 보장, 향상시키며 균형 있는 국민경제의 발전을 꾀하는 것을 목적으로 한다.' },
     { id: 2, title: '법률 문서 2', category: '카테고리 B', content: '법률 문서 내용 2' },
     { id: 3, title: '법률 문서 3', category: '근로 기준법', content: '법률 문서 내용 3' },
+=======
+    { id: 1, title: '법률 문서 1', category: '카테고리 A', content: '법률 문서 내용 1' },
+    { id: 2, title: '법률 문서 2', category: '카테고리 B', content: '법률 문서 내용 2' },
+    { id: 3, title: '법률 문서 3', category: '카테고리 A', content: '법률 문서 내용 3' },
+>>>>>>> 0224b24d47bc523d4c2e6a67f2a607924c7bae70
     { id: 4, title: '법률 문서 4', category: '카테고리 C', content: '법률 문서 내용 4' },
   ];
 
@@ -19,7 +25,11 @@ const LegalText = () => {
     : legalDocuments.filter(doc => doc.category === categoryFilter);
 
   // 카테고리 목록
+<<<<<<< HEAD
   const categories = ['전체', '근로 기준법', '카테고리 B', '카테고리 C'];
+=======
+  const categories = ['전체', '카테고리 A', '카테고리 B', '카테고리 C'];
+>>>>>>> 0224b24d47bc523d4c2e6a67f2a607924c7bae70
 
   // 카테고리 버튼 클릭 핸들러
   const handleCategoryClick = (category) => {
