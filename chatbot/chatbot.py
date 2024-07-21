@@ -2,8 +2,6 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
-
 class GptAPI():
     def __init__(self, model, client):
         self.messages = []
@@ -28,9 +26,18 @@ class GptAPI():
 
         self.messages.append({"role": "system", "content": result})
         
-model = "gpt-4-turbo"
-
 api_key = os.getenv("OPENAI_API_KEY")
-client = OpenAI(api_key=api_key)
+model = "gpt-3.5-turbo"
 
+client = OpenAI(api_key=api_key)
 gpt = GptAPI(model, client)
+
+
+# 사용자와 챗봇 간의 대화
+while True:
+    prompt = input("사용자: ")
+    if prompt.lower() in ["exit", "quit", "종료"]:
+        print("대화를 종료합니다.")
+        break
+    gpt.get_message(prompt)
+    print()  # 응답 후 줄바꿈
