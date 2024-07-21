@@ -1,13 +1,27 @@
-from flask import Blueprint
+from flask import Blueprint, render_template, request, jsonify, send_from_directory
+from pybo.forms import ChatForm
+import openai
+import os
 
-bp = Blueprint('main', __name__, url_prefix='/')
+bp = Blueprint('main', __name__)
 
-
-@bp.route('/hello')
-def hello_pybo():
-    return 'Hello, Pybo!'
-
-
-@bp.route('/')
+@bp.route('/', methods=['GET'])
 def index():
-    return 'Pybo index'
+    return render_template('index.html')
+
+@bp.route('/api/chat', methods=['POST'])
+def chat():
+    user_input = request.json.get('message')
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": "You are an AI assistant that provides legal advice based on labor laws."},
+            {"role": "user", "content": user_input}
+        ],
+        api_key=os.getenv('OPENAI_API_KEY')
+    )
+    return jsonify(response['choices'][0]['message']['content'])
+
+@bp.route('/<path:path>', methods=['GET'])
+def static_proxy(path):
+    return send_from_directory('../build', path)

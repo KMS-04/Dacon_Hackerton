@@ -1,11 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField
+from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 
-class QuestionForm(FlaskForm):
-    subject = StringField('제목', validators=[DataRequired()])
-    content = TextAreaField('내용', validators=[DataRequired()])
-
-class QuestionForm(FlaskForm):
-    subject = StringField('제목', validators=[DataRequired()])
-    content = TextAreaField('내용', validators=[DataRequired())
+class ChatForm(FlaskForm):
+    message = StringField('Message', validators=[DataRequired()])
+    submit = SubmitField('Send')
