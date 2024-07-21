@@ -40,4 +40,4 @@ while True:
         print("대화를 종료합니다.")
         break
     gpt.get_message(prompt)
-    print()  # 응답 후 줄바꿈
+    print()  
