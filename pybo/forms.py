@@ -9,7 +9,3 @@ class QuestionForm(FlaskForm):
 class QuestionForm(FlaskForm):
     subject = StringField('제목', validators=[DataRequired()])
     content = TextAreaField('내용', validators=[DataRequired())
-
-class QuestionForm(FlaskForm):
-    subject = StringField('제목', validators=[DataRequired()])
-    content = TextAreaField('내용', validators=[DataRequired())
