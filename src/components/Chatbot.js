@@ -6,6 +6,7 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const chatWindowRef = useRef(null);
+  const textareaRef = useRef(null);
 
   const handleSend = () => {
     if (input.trim()) {
@@ -22,6 +23,13 @@ const Chatbot = () => {
     }
   }, [messages]);
 
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.overflow = 'hidden';
+      textareaRef.current.style.whiteSpace = 'pre-wrap';
+    }
+  }, []);
+
   return (
     <div className="chatbot">
       <h2>챗봇</h2>
@@ -36,6 +44,7 @@ const Chatbot = () => {
       </div>
       <div className="chat-input">
         <textarea
+          ref={textareaRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={(e) => e.key === 'Enter' && handleSend()}
