@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, request, jsonify, send_from_directory
-from pybo.forms import ChatForm
 import openai
 import os
 
@@ -24,4 +23,4 @@ def chat():
 
 @bp.route('/<path:path>', methods=['GET'])
 def static_proxy(path):
-    return send_from_directory('../build', path)
+    return send_from_directory('frontend/build', path)
