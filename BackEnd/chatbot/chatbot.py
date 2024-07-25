@@ -3,7 +3,6 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os
 
-
 class GptAPI():
     def __init__(self, model, client, db_config):
         self.messages = []
@@ -42,17 +41,13 @@ class GptAPI():
                 result = ''.join([result, string])
 
         self.messages.append({"role": "system", "content": result})
-<<<<<<< HEAD
 
         # 응답을 데이터베이스에 저장
         self.save_to_database(prompt, result)
-
-=======
         
         # 응답을 데이터베이스에 저장
         self.save_to_database(prompt, result)
-        
->>>>>>> 0de063d1a2a79e99e178d52144c2db67d79ef40d
+
     def search_database(self, prompt):
         conn = mysql.connector.connect(**self.db_config)
         cursor = conn.cursor()
@@ -63,11 +58,7 @@ class GptAPI():
         if row:
             return row[0]
         return None
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> 0de063d1a2a79e99e178d52144c2db67d79ef40d
     def save_to_database(self, user_input, bot_response):
         conn = mysql.connector.connect(**self.db_config)
         cursor = conn.cursor()
@@ -76,15 +67,12 @@ class GptAPI():
         conn.commit()
         conn.close()
 
-<<<<<<< HEAD
-
-# 환경 변수에서 API 키 로드
-load_dotenv()
-=======
 # 환경 변수에서 API 키 로드
 load_dotenv()
 
->>>>>>> 0de063d1a2a79e99e178d52144c2db67d79ef40d
+# 환경 변수에서 API 키 로드
+load_dotenv()
+
 api_key = os.getenv("OPENAI_API_KEY")
 model = "gpt-3.5-turbo"
 
@@ -107,10 +95,3 @@ while True:
         break
     gpt.get_message(prompt)
     print()
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 0de063d1a2a79e99e178d52144c2db67d79ef40d
-# mysql.connector.errors.ProgrammingError: 1146 (42S02): Table 'law.conversations' doesn't exist
-# 오류 해결 필요
