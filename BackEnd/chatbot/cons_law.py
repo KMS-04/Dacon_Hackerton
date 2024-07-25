@@ -1,48 +1,45 @@
-import pymysql
+import mysql.connector
 import pandas as pd
 from dotenv import load_dotenv
 import os
 
-# CSV 파일 경로
-file_path = './헌법.csv'
-
 load_dotenv()
 
-# MySQL 연결 정보
-host = os.getenv('MYSQL_HOST')
-user = os.getenv('MYSQL_USER')
-password = os.getenv('MYSQL_PASSWORD')
-database = os.getenv('MYSQL_DATABASE')
+# CSV 파일 읽기
+file_path = './헌법.csv'
 
-# 데이터베이스 연결
-conn = pymysql.connect(host=host, user=user, password=password, database=database)
-cursor = conn.cursor()
+# 파일 읽기, delimiter가 '/'인 경우 지정
+data = pd.read_csv(file_path, delimiter='/', encoding='utf-8')
 
-# 테이블 생성 쿼리
-create_table_query = '''
-CREATE TABLE IF NOT EXISTS constitution (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    clause_number VARCHAR(255),
-    clause_content TEXT
+# 데이터 열 이름 변경
+data.columns = ['조항 번호', '조항 내용']
+
+# MySQL 연결 설정
+connection = mysql.connector.connect(
+    host = os.getenv('MYSQL_HOST'),
+    user = os.getenv('MYSQL_USER'),
+    password = os.getenv('MYSQL_PASSWORD'),
+    database = os.getenv('MYSQL_DATABASE')
 )
-'''
-cursor.execute(create_table_query)
 
-# CSV 파일을 DataFrame으로 읽기
-data = pd.read_csv(file_path, delimiter='/')
+cursor = connection.cursor()
 
-# 데이터 삽입
-insert_query = '''
-INSERT INTO constitution (clause_number, clause_content)
-VALUES (%s, %s)
-'''
+# 테이블 생성
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS 헌법 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    조항_번호 VARCHAR(50),
+    조항_내용 TEXT
+)
+""")
 
+# CSV 파일 데이터를 MySQL 테이블에 삽입
 for index, row in data.iterrows():
-    cursor.execute(insert_query, (row['조항 번호'], row['조항 내용']))
+    sql = "INSERT INTO 헌법 (조항_번호, 조항_내용) VALUES (%s, %s)"
+    cursor.execute(sql, (row['조항 번호'], row['조항 내용']))
 
-# 변경 사항 커밋
-conn.commit()
+connection.commit()
 
 # 연결 종료
 cursor.close()
-conn.close()
+connection.close()
