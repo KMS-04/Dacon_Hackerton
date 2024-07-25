@@ -16,20 +16,30 @@ data.columns = ['조항 번호', '조항 내용']
 
 # MySQL 연결 설정
 connection = mysql.connector.connect(
-    host = os.getenv('MYSQL_HOST'),
-    user = os.getenv('MYSQL_USER'),
-    password = os.getenv('MYSQL_PASSWORD'),
-    database = os.getenv('MYSQL_DATABASE')
+    host=os.getenv('MYSQL_HOST'),
+    user=os.getenv('MYSQL_USER'),
+    password=os.getenv('MYSQL_PASSWORD'),
+    database=os.getenv('MYSQL_DATABASE')
 )
 
 cursor = connection.cursor()
 
-# 테이블 생성
+# 헌법 테이블 생성
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS 헌법 (
     id INT AUTO_INCREMENT PRIMARY KEY,
     조항_번호 VARCHAR(50),
     조항_내용 TEXT
+)
+""")
+
+# conversations 테이블 생성
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS conversations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_input TEXT,
+    bot_response TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
 """)
 
