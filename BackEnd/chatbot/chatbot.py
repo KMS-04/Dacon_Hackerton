@@ -70,9 +70,6 @@ class GptAPI():
 # 환경 변수에서 API 키 로드
 load_dotenv()
 
-# 환경 변수에서 API 키 로드
-load_dotenv()
-
 api_key = os.getenv("OPENAI_API_KEY")
 model = "gpt-3.5-turbo"
 
