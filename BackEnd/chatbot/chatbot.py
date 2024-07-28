@@ -20,13 +20,6 @@ class GptAPI():
             self.messages.append({"role": "system", "content": response})
             return
 
-        # 데이터베이스에서 응답 검색
-        response = self.search_database(prompt)
-        if response:
-            print(response)
-            self.messages.append({"role": "system", "content": response})
-            return
-
         stream = self.client.chat.completions.create(
             model=self.model,
             messages=self.messages,
@@ -45,9 +38,6 @@ class GptAPI():
         # 응답을 데이터베이스에 저장
         self.save_to_database(prompt, result)
         
-        # 응답을 데이터베이스에 저장
-        self.save_to_database(prompt, result)
-
     def search_database(self, prompt):
         conn = mysql.connector.connect(**self.db_config)
         cursor = conn.cursor()
