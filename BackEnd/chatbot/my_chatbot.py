@@ -1,52 +1,36 @@
 import mysql.connector
-from openai import OpenAI
+import openai
 from dotenv import load_dotenv
 import os
 
 class GptAPI():
-    def __init__(self, model, client, db_config):
-        self.messages = []
+    def __init__(self, model, api_key, db_config):
+        self.messages = [{"role": "system", "content": "You are an AI assistant that provides legal advice based on labor laws."}]
         self.model = model
-        self.client = client
+        self.api_key = api_key
         self.db_config = db_config
 
     def get_message(self, prompt):
         self.messages.append({"role": "user", "content": prompt})
-        
-        # 데이터베이스에서 응답 검색
-        response = self.search_database(prompt)
-        if response:
-            print(response)
-            self.messages.append({"role": "system", "content": response})
-            return
 
         # 데이터베이스에서 응답 검색
         response = self.search_database(prompt)
         if response:
-            print(response)
             self.messages.append({"role": "system", "content": response})
-            return
+            return response
 
-        stream = self.client.chat.completions.create(
+        openai.api_key = self.api_key
+        response = openai.ChatCompletion.create(
             model=self.model,
-            messages=self.messages,
-            stream=True,
+            messages=self.messages
         )
 
-        result = ''
-        for chunk in stream:
-            if chunk.choices[0].delta.content is not None:
-                string = chunk.choices[0].delta.content
-                print(string, end="")
-                result = ''.join([result, string])
-
-        self.messages.append({"role": "system", "content": result})
+        result = response.choices[0].message['content']
+        self.messages.append({"role": "assistant", "content": result})
 
         # 응답을 데이터베이스에 저장
         self.save_to_database(prompt, result)
-        
-        # 응답을 데이터베이스에 저장
-        self.save_to_database(prompt, result)
+        return result
 
     def search_database(self, prompt):
         conn = mysql.connector.connect(**self.db_config)
@@ -70,9 +54,6 @@ class GptAPI():
 # 환경 변수에서 API 키 로드
 load_dotenv()
 
-# 환경 변수에서 API 키 로드
-load_dotenv()
-
 api_key = os.getenv("OPENAI_API_KEY")
 model = "gpt-3.5-turbo"
 
@@ -84,14 +65,4 @@ db_config = {
     'database': os.getenv("MYSQL_DATABASE"),
 }
 
-client = OpenAI(api_key=api_key)
-gpt = GptAPI(model, client, db_config)
-
-# 사용자와 챗봇 간의 대화
-while True:
-    prompt = input("사용자: ")
-    if prompt.lower() in ["exit", "quit", "종료"]:
-        print("대화를 종료합니다.")
-        break
-    gpt.get_message(prompt)
-    print()
+gpt = GptAPI(model, api_key, db_config)

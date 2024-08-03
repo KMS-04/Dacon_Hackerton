@@ -1,58 +1,54 @@
-// src/components/Chatbot.js
-import React, { useState, useEffect, useRef } from 'react';
-import './Chatbot';
+import React, { useState } from 'react';
+import axios from 'axios';
+import './Chatbot.css';  // Ensure CSS is applied
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-  const chatWindowRef = useRef(null);
-  const textareaRef = useRef(null);
 
-  const handleSend = () => {
-    if (input.trim()) {
-      setMessages([...messages, { user: 'User', text: input }]);
-      setInput('');
-      // 여기에 챗봇 응답 로직을 추가할 수 있습니다
-      setMessages(prevMessages => [...prevMessages, { user: 'Bot', text: '응답 메시지' }]);
+  const sendMessage = async () => {
+    if (!input.trim()) return; // 빈 입력 방지
+
+    const userMessage = { message: input };
+    setInput('');
+
+    try {
+      const response = await axios.post('/api/chat', userMessage);
+      setMessages(prevMessages => [
+        ...prevMessages,
+        { user: true, text: userMessage.message },
+        { user: false, text: response.data }
+      ]);
+    } catch (error) {
+      console.error("There was an error sending the message!", error);
     }
   };
 
-  useEffect(() => {
-    if (chatWindowRef.current) {
-      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
-    }
-  }, [messages]);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    sendMessage();
+  };
 
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.overflow = 'hidden';
-      textareaRef.current.style.whiteSpace = 'pre-wrap';
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
     }
-  }, []);
+  };
 
   return (
     <div className="chatbot">
-      <h2>챗봇</h2>
-      <div className="chat-window" ref={chatWindowRef}>
+      <div className="chat-window">
         {messages.map((msg, index) => (
-          <div key={index} className={`chat-message ${msg.user.toLowerCase()}`}>
-            <div className={`chat-bubble ${msg.user.toLowerCase()}`}>
-              <strong>{msg.user}:</strong> {msg.text}
-            </div>
+          <div key={index} className={`chat-message ${msg.user ? 'user' : 'bot'}`}>
+            <div className="chat-bubble">{msg.text}</div>
           </div>
         ))}
       </div>
-      <div className="chat-input">
+      <form className="chat-input" onSubmit={handleSubmit}>
         <textarea
-          ref={textareaRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-        />
-        <button onClick={handleSend}>Send</button>
-      </div>
-    </div>
-  );
-};
-
-export default Chatbot;
+          onKeyDown={handleKeyDown}
+        ></textarea>
+        <

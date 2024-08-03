@@ -2,6 +2,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import Config
+from dotenv import load_dotenv
+import os
+
+# .env 파일 로드
+load_dotenv(dotenv_path='C:/projects/myproject/BackEnd/.env')
 
 db = SQLAlchemy()
 migrate = Migrate()
