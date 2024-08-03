@@ -1,6 +1,7 @@
 // src/components/Chatbot.js
 import React, { useState, useEffect, useRef } from 'react';
-import './Chatbot';
+import axios from 'axios'; // axios를 사용하여 OpenAI API 호출
+import './Chatbot.css'; // './Chatbot'을 './Chatbot.css'로 수정하여 스타일링 파일을 올바르게 불러옴
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
@@ -8,12 +9,22 @@ const Chatbot = () => {
   const chatWindowRef = useRef(null);
   const textareaRef = useRef(null);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (input.trim()) {
-      setMessages([...messages, { user: 'User', text: input }]);
+      const userMessage = { user: 'User', text: input };
+      setMessages([...messages, userMessage]);
       setInput('');
-      // 여기에 챗봇 응답 로직을 추가할 수 있습니다
-      setMessages(prevMessages => [...prevMessages, { user: 'Bot', text: '응답 메시지' }]);
+
+      // OpenAI API 호출
+      try {
+        const response = await axios.post('/api/chat', { message: input });
+        const botMessage = { user: 'Bot', text: response.data.message };
+        setMessages((prevMessages) => [...prevMessages, botMessage]);
+      } catch (error) {
+        console.error('Error fetching OpenAI response:', error);
+        const errorMessage = { user: 'Bot', text: '오류가 발생했습니다. 다시 시도해 주세요.' };
+        setMessages((prevMessages) => [...prevMessages, errorMessage]);
+      }
     }
   };
 
@@ -47,7 +58,7 @@ const Chatbot = () => {
           ref={textareaRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+          onKeyDown={(e) => e.key === 'Enter' && handleSend()}
         />
         <button onClick={handleSend}>Send</button>
       </div>
