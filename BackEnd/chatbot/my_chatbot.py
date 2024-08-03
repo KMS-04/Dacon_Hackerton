@@ -20,7 +20,8 @@ class GptAPI():
             return response
 
         openai.api_key = self.api_key
-        response = openai.ChatCompletion.create(
+        response = openai.ChatCompletion.create
+        stream = self.client.chat.completions.create(
             model=self.model,
             messages=self.messages
         )
