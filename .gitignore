@@ -1,2 +1,7 @@
 node_modules
+<<<<<<< HEAD
 .venv/
+=======
+# Python virtual environment
+.venv/
+>>>>>>> 1b92128f0bcffd5368610ad420729d4708bc8c84
