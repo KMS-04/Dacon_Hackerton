@@ -20,13 +20,16 @@ class GptAPI():
             return response
 
         openai.api_key = self.api_key
-        response = openai.ChatCompletion.create
-        stream = self.client.chat.completions.create(
+        response = openai.chat.completions.create(
             model=self.model,
             messages=self.messages
         )
+        #stream = self.client.chat.completions.create(
+        #    model=self.model,
+        #    messages=self.messages
+        #)
 
-        result = response.choices[0].message['content']
+        result = response.choices[0].message.content    # 오류 수정 완
         self.messages.append({"role": "assistant", "content": result})
 
         # 응답을 데이터베이스에 저장
