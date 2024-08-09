@@ -1,36 +1,54 @@
 // src/App.js
 import React, { useState } from 'react';
-import { GoogleOAuthProvider } from '@react-oauth/google'; // GoogleOAuthProvider 가져오기
 import LegalText from './components/LegalText';
 import Chatbot from './components/Chatbot';
-import Login from './components/Login';
-import NaverLogin from './components/NaverLogin'; // 네이버 로그인 추가
+import StartPage from './components/StartPage';
 import './App.css';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
 
-  const handleLoginSuccess = () => {
+  const handleLogin = () => {
+    // 로그인 로직 처리
     setIsAuthenticated(true);
+    setHasStarted(true);
+  };
+
+  const handleSignUp = () => {
+    // 회원가입 로직 처리
+    setIsAuthenticated(true);
+    setHasStarted(true);
+  };
+
+  const handleContinueAsGuest = () => {
+    setHasStarted(true);
   };
 
   return (
-    // GoogleOAuthProvider로 전체 애플리케이션 감싸기
-    <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
-      <div className="App">
-        {isAuthenticated ? (
-          <>
-            <LegalText />
-            <Chatbot />
-          </>
-        ) : (
-          <>
-            <Login onLoginSuccess={handleLoginSuccess} />
-            <NaverLogin onLoginSuccess={handleLoginSuccess} />
-          </>
-        )}
-      </div>
-    </GoogleOAuthProvider>
+    <div className="App">
+      {!hasStarted ? (
+        <StartPage 
+          onLogin={handleLogin} 
+          onSignUp={handleSignUp} 
+          onContinueAsGuest={handleContinueAsGuest} 
+        />
+      ) : (
+        <>
+          {isAuthenticated ? (
+            <>
+              <LegalText />
+              <Chatbot />
+            </>
+          ) : (
+            <>
+              <LegalText />
+              <Chatbot />
+            </>
+          )}
+        </>
+      )}
+    </div>
   );
 }
 
