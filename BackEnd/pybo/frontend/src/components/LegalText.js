@@ -1,11 +1,8 @@
-// src/components/LegalText.js
 import React, { useState } from 'react';
-import './LegalText';
 
 const LegalText = () => {
-  const [categoryFilter, setCategoryFilter] = useState('전체'); // 초기 카테고리 설정
+  const [categoryFilter, setCategoryFilter] = useState('전체');
 
-  // 예시 법률 데이터
   const legalDocuments = [
     { id: 1, title: '법률 문서 1', category: '카테고리 A', content: '법률 문서 내용 1' },
     { id: 2, title: '법률 문서 2', category: '카테고리 B', content: '법률 문서 내용 2' },
@@ -13,15 +10,12 @@ const LegalText = () => {
     { id: 4, title: '법률 문서 4', category: '카테고리 C', content: '법률 문서 내용 4' },
   ];
 
-  // 모든 법률 문서 표시
   const filteredDocuments = categoryFilter === '전체'
     ? legalDocuments
     : legalDocuments.filter(doc => doc.category === categoryFilter);
 
-  // 카테고리 목록
   const categories = ['전체', '카테고리 A', '카테고리 B', '카테고리 C'];
 
-  // 카테고리 버튼 클릭 핸들러
   const handleCategoryClick = (category) => {
     setCategoryFilter(category);
   };

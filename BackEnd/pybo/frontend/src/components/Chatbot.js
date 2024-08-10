@@ -5,7 +5,6 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const chatWindowRef = useRef(null);
-  const textareaRef = useRef(null);
 
   const handleSend = async () => {
     if (input.trim()) {
@@ -43,7 +42,6 @@ const Chatbot = () => {
       </div>
       <div className="chat-input">
         <textarea
-          ref={textareaRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSend()}

@@ -1,54 +1,20 @@
-// src/App.js
-import React, { useState } from 'react';
-import LegalText from './components/LegalText';
-import Chatbot from './components/Chatbot';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import StartPage from './components/StartPage';
-import './App.css';
+import SignUp from './components/SignUp';
+import ChatbotPage from './components/ChatbotPage'; // ChatbotPage 컴포넌트 임포트
+import Login from './components/Login';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
-
-  const handleLogin = () => {
-    // 로그인 로직 처리
-    setIsAuthenticated(true);
-    setHasStarted(true);
-  };
-
-  const handleSignUp = () => {
-    // 회원가입 로직 처리
-    setIsAuthenticated(true);
-    setHasStarted(true);
-  };
-
-  const handleContinueAsGuest = () => {
-    setHasStarted(true);
-  };
-
   return (
-    <div className="App">
-      {!hasStarted ? (
-        <StartPage 
-          onLogin={handleLogin} 
-          onSignUp={handleSignUp} 
-          onContinueAsGuest={handleContinueAsGuest} 
-        />
-      ) : (
-        <>
-          {isAuthenticated ? (
-            <>
-              <LegalText />
-              <Chatbot />
-            </>
-          ) : (
-            <>
-              <LegalText />
-              <Chatbot />
-            </>
-          )}
-        </>
-      )}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<StartPage />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/chatbot" element={<ChatbotPage />} /> {/* ChatbotPage 라우트 */}
+      </Routes>
+    </Router>
   );
 }
 

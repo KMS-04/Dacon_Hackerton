@@ -1,14 +1,28 @@
-// src/components/StartPage.js
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const StartPage = ({ onLogin, onSignUp, onContinueAsGuest }) => {
+const StartPage = () => {
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    navigate('/login'); // 로그인 페이지로 이동
+  };
+
+  const handleSignUpClick = () => {
+    navigate('/signup'); // 회원가입 페이지로 이동
+  };
+
+  const handleContinueAsGuestClick = () => {
+    navigate('/chatbot'); // 게스트로 계속하기 시, 챗봇 페이지로 이동
+  };
+
   return (
     <div style={styles.container}>
       <img src="/logo.png" alt="Logo" style={styles.logo} />
       <div style={styles.buttonsContainer}>
-        <button style={styles.button} onClick={onLogin}>Login</button>
-        <button style={styles.button} onClick={onSignUp}>Sign Up</button>
-        <button style={styles.button} onClick={onContinueAsGuest}>Continue as Guest</button>
+        <button style={styles.button} onClick={handleLoginClick}>Login</button>
+        <button style={styles.button} onClick={handleSignUpClick}>Sign Up</button>
+        <button style={styles.button} onClick={handleContinueAsGuestClick}>Continue as Guest</button>
       </div>
     </div>
   );
@@ -26,7 +40,7 @@ const styles = {
     padding: '0',
     margin: '0',
     boxSizing: 'border-box',
-    transform: 'translateY(-20px)', // 20px 위로 이동
+    transform: 'translateY(-20px)',
   },
   logo: {
     width: '450px',
