@@ -4,14 +4,18 @@ from dotenv import load_dotenv
 import os
 
 class GptAPI():
-    def __init__(self, model, api_key, db_config):
+    def __init__(self, model, api_key, db_config, legal_api_key):
         self.messages = [{"role": "system", "content": "You are an AI assistant that provides legal advice based on labor laws."}]
         self.model = model
         self.api_key = api_key
         self.db_config = db_config
+        self.legal_api_key = legal_api_key
 
     def get_message(self, prompt):
         self.messages.append({"role": "user", "content": prompt})
+
+        # prompt에서 분류 필요(헌법, 노동법, 판례 등)
+        
 
         # 데이터베이스에서 응답 검색
         response = self.search_database(prompt)
@@ -71,4 +75,4 @@ db_config = {
     'database': os.getenv("MYSQL_DATABASE"),
 }
 
-gpt = GptAPI(model, api_key, db_config)
+gpt = GptAPI(model, api_key, db_config, legal_api_key)
