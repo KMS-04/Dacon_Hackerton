@@ -61,6 +61,8 @@ load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 model = "gpt-3.5-turbo"
 
+legal_api_key = os.getenv("LEGAL_API_KEY")
+
 # MySQL 데이터베이스 설정
 db_config = {
     'user': os.getenv("MYSQL_USER"),
