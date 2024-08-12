@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
+import './SignUp.css'; // CSS 파일 임포트
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -76,12 +77,12 @@ const SignUp = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <button onClick={handleBackClick} style={styles.backButton}>
-        <img src="/back-icon.png" alt="Back" style={styles.backIcon} />
+    <div className="container">
+      <button onClick={handleBackClick} className="back-button">
+        <img src="/back-icon.png" alt="Back" className="back-icon" />
       </button>
       <h1>Sign Up</h1>
-      <form style={styles.form} onSubmit={handleSubmit}>
+      <form className="form" onSubmit={handleSubmit}>
         <input
           type="email"
           placeholder="Enter your email"
@@ -90,11 +91,11 @@ const SignUp = () => {
             setEmail(e.target.value);
             setEmailError('');
           }}
-          style={styles.input}
+          className="input"
           required
         />
         {emailError && (
-          <p style={styles.errorText}>{emailError}</p>
+          <p className="error-text">{emailError}</p>
         )}
         {showPassword && (
           <>
@@ -106,132 +107,34 @@ const SignUp = () => {
                 setPassword(e.target.value);
                 setPasswordError('');
               }}
-              style={styles.input}
+              className="input"
               required
             />
             {passwordError && (
-              <p style={styles.passwordErrorText}>{passwordError}</p>
+              <p className="password-error-text">{passwordError}</p>
             )}
           </>
         )}
-        <button type="submit" style={styles.submitButton}>
+        <button type="submit" className="submit-button">
           {showPassword ? 'Complete Sign Up' : 'Sign Up'}
         </button>
       </form>
-      <div style={styles.socialContainer}>
+      <div className="social-container">
         <button
           onClick={() => googleLogin()}
-          style={{
-            ...styles.socialButton,
-            ...styles.google,
-          }}
+          className="social-button google"
         >
-          <img src="/google-icon.png" alt="Google" style={styles.icon} />
+          <img src="/google-icon.png" alt="Google" className="icon" />
         </button>
         <button
           onClick={handleNaverLogin}
-          style={{ ...styles.socialButton, ...styles.naver }}
+          className="social-button naver"
         >
-          <img src="/naver-icon.png" alt="Naver" style={styles.icon} />
+          <img src="/naver-icon.png" alt="Naver" className="icon" />
         </button>
       </div>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100vh',
-    backgroundColor: '#ffffff',
-    position: 'relative',
-  },
-  backButton: {
-    position: 'absolute',
-    top: '20px',
-    left: '20px',
-    width: '40px',
-    height: '40px',
-    borderRadius: '50%',
-    backgroundColor: '#ffffff', // 버튼 색상을 흰색으로 변경
-    border: 'none',
-    cursor: 'pointer',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  backIcon: {
-    width: '20px',
-    height: '20px',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginBottom: '20px',
-  },
-  input: {
-    width: '320px',
-    padding: '10px',
-    marginBottom: '10px',
-    fontSize: '16px',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-    boxSizing: 'border-box',
-  },
-  submitButton: {
-    width: '320px',
-    padding: '10px',
-    fontSize: '16px',
-    borderRadius: '5px',
-    backgroundColor: '#005B5C',
-    color: '#fff',
-    border: 'none',
-    cursor: 'pointer',
-    marginBottom: '10px',
-  },
-  socialContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '20px',
-  },
-  socialButton: {
-    width: '50px',
-    height: '50px',
-    borderRadius: '50%',
-    border: '2px solid #ccc',
-    backgroundColor: '#ffffff',
-    cursor: 'pointer',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  google: {},
-  naver: {},
-  icon: {
-    width: '35px',
-    height: '35px',
-  },
-  errorText: {
-    color: 'red',
-    fontSize: '12px',
-    textDecoration: 'underline',
-    marginTop: '-10px',
-    marginBottom: '10px',
-    textAlign: 'left',
-    width: '320px',
-  },
-  passwordErrorText: {
-    color: 'red',
-    fontSize: '12px',
-    textDecoration: 'underline',
-    marginTop: '2px',
-    textAlign: 'left',
-    width: '320px',
-  },
 };
 
 export default SignUp;
