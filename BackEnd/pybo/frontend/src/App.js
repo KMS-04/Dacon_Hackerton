@@ -1,54 +1,23 @@
-// src/App.js
-import React, { useState } from 'react';
-import LegalText from './components/LegalText';
-import Chatbot from './components/Chatbot';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';  // GoogleOAuthProvider 임포트
 import StartPage from './components/StartPage';
-import './App.css';
+import SignUp from './components/SignUp';
+import ChatbotPage from './components/ChatbotPage';
+import Login from './components/Login';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
-
-  const handleLogin = () => {
-    // 로그인 로직 처리
-    setIsAuthenticated(true);
-    setHasStarted(true);
-  };
-
-  const handleSignUp = () => {
-    // 회원가입 로직 처리
-    setIsAuthenticated(true);
-    setHasStarted(true);
-  };
-
-  const handleContinueAsGuest = () => {
-    setHasStarted(true);
-  };
-
   return (
-    <div className="App">
-      {!hasStarted ? (
-        <StartPage 
-          onLogin={handleLogin} 
-          onSignUp={handleSignUp} 
-          onContinueAsGuest={handleContinueAsGuest} 
-        />
-      ) : (
-        <>
-          {isAuthenticated ? (
-            <>
-              <LegalText />
-              <Chatbot />
-            </>
-          ) : (
-            <>
-              <LegalText />
-              <Chatbot />
-            </>
-          )}
-        </>
-      )}
-    </div>
+    <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID"> {/* clientId를 입력하세요 */}
+      <Router>
+        <Routes>
+          <Route path="/" element={<StartPage />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/chatbot" element={<ChatbotPage />} />
+        </Routes>
+      </Router>
+    </GoogleOAuthProvider>
   );
 }
 

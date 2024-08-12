@@ -1,114 +1,116 @@
+
+/* Chatbot 컴포넌트 스타일 */
 .chatbot {
-  flex: 1;
+  flex: 2; /* 좌우 배치에서 넓은 비율을 차지 */
   display: flex;
   flex-direction: column;
   padding: 20px;
   background-color: #fff;
-  overflow: hidden;
-  box-sizing: border-box;
+  overflow: hidden; /* 챗봇 영역에서 가로 스크롤바를 숨기기 */
+  box-sizing: border-box; /* 패딩과 보더를 요소의 크기에 포함시킴 */
 }
 
-.chat-window {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-bottom: 40px;
-  max-height: calc(100% - 80px);
-}
+  .chat-window {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden; /* 가로 스크롤바를 숨기기 */
+    padding-bottom: 40px; /* 입력창 높이를 고려한 패딩 */
+    max-height: calc(100% - 80px); /* 채팅창 최대 높이 설정 */
+  }
 
-.chat-message {
-  display: flex;
-  margin: 5px 0;
-  word-break: break-word;
-}
+  .chat-message {
+    display: flex;
+    margin: 5px 0;
+    word-break: break-word; /* 단어 중간에서 줄 바꿈 */
+  }
 
-.chat-message.user {
-  justify-content: flex-end;
-}
+  .chat-message.user {
+    justify-content: flex-end;
+  }
 
-.chat-message.bot {
-  justify-content: flex-start;
-}
+  .chat-message.bot {
+    justify-content: flex-start;
+  }
 
-.chat-bubble {
-  max-width: 60%;
-  padding: 10px;
-  border-radius: 10px;
-  margin: 5px;
-  position: relative;
-  font-size: 14px;
-  word-break: break-word;
-  white-space: pre-wrap;
-  overflow-wrap: break-word;
-}
+  .chat-bubble {
+    max-width: 60%;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    position: relative;
+    font-size: 14px;
+    word-break: break-word; /* 단어 중간에서 줄 바꿈 */
+    white-space: pre-wrap; /* 공백을 유지하면서 줄 바꿈 */
+    overflow-wrap: break-word; /* 긴 단어도 줄 바꿈 */
+  }
 
-.chat-bubble.user {
-  background-color: #005B5C;
-  color: white;
-  border-bottom-right-radius: 0;
-}
+  .chat-bubble.user {
+    background-color: #005B5C;
+    color: white;
+    border-bottom-right-radius: 0;
+  }
 
-.chat-bubble.user::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: -10px;
-  border-width: 10px 0 10px 10px;
-  border-style: solid;
-  border-color: transparent transparent transparent #005B5C;
-}
+  .chat-bubble.user::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -10px;
+    border-width: 10px 0 10px 10px;
+    border-style: solid;
+    border-color: transparent transparent transparent #005B5C;
+  }
 
-.chat-bubble.bot {
-  background-color: #f1f1f1;
-  color: black;
-  border-bottom-left-radius: 0;
-}
+  .chat-bubble.bot {
+    background-color: #f1f1f1;
+    color: black;
+    border-bottom-left-radius: 0;
+  }
 
-.chat-bubble.bot::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -10px;
-  border-width: 10px 10px 10px 0;
-  border-style: solid;
-  border-color: transparent #f1f1f1 transparent transparent;
-}
+  .chat-bubble.bot::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -10px;
+    border-width: 10px 10px 10px 0;
+    border-style: solid;
+    border-color: transparent #f1f1f1 transparent transparent;
+  }
 
-.chat-input {
-  display: flex;
-  padding: 10px;
-  background-color: #fff;
-  border-top: 1px solid #ddd;
-  overflow: hidden;
-  flex-shrink: 0;
-  box-sizing: border-box;
-}
+  .chat-input {
+    display: flex;
+    padding: 10px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    overflow: hidden; /* 스크롤 바 숨기기 */
+    flex-shrink: 0; /* 입력창이 축소되지 않도록 설정 */
+    box-sizing: border-box; /* 패딩과 보더를 요소의 크기에 포함시킴 */
+  }
 
-.chat-input textarea {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-right: 10px;
-  height: 60px;
-  resize: none;
-  font-family: 'Roboto', sans-serif;
-  overflow: hidden;
-  white-space: pre-wrap;
-  box-sizing: border-box;
-}
+  .chat-input textarea {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+    height: 60px; /* 입력창 높이 설정 */
+    resize: none; /* 입력창 크기 조절 비활성화 */
+    font-family: 'Roboto', sans-serif; /* 폰트 패밀리 설정 */
+    overflow: hidden; /* 스크롤 바 숨기기 */
+    white-space: pre-wrap; /* 줄바꿈 및 공백 유지 */
+    box-sizing: border-box; /* 패딩과 보더를 요소의 크기에 포함시킴 */
+  }
 
-.chat-input button {
-  padding: 10px 20px;
-  background-color: #005B5C;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  height: 60px;
-  font-family: 'Roboto', sans-serif;
-}
+  .chat-input button {
+    padding: 10px 20px;
+    background-color: #005B5C;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 60px; /* 버튼 높이 설정 */
+    font-family: 'Roboto', sans-serif; /* 폰트 패밀리 설정 */
+  }
 
-.chat-input button:hover {
-  background-color: #004547;
-}
+  .chat-input button:hover {
+    background-color: #004547;
+  }
