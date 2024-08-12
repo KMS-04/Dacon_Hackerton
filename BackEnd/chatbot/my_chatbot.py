@@ -2,6 +2,7 @@ import mysql.connector
 import openai
 from dotenv import load_dotenv
 import os
+import requests
 
 class GptAPI():
     def __init__(self, model, api_key, db_config, legal_api_key):
@@ -15,7 +16,14 @@ class GptAPI():
         self.messages.append({"role": "user", "content": prompt})
 
         # prompt에서 분류 필요(헌법, 노동법, 판례 등)
-        
+        category = self.classify_prompt(prompt)
+
+        # 분류 후 국가 법령정보 API 호출
+        if category:
+            response = self.search_legal_info(category, prompt)
+            if response:
+                self.messages.append({"role" : "system", "content" : response})
+                return response
 
         # 데이터베이스에서 응답 검색
         response = self.search_database(prompt)
@@ -39,6 +47,35 @@ class GptAPI():
         # 응답을 데이터베이스에 저장
         self.save_to_database(prompt, result)
         return result
+
+    def classify_prompt(self, prompt):
+        # 분류 로직 구현(구체화 필요)
+        if "헌법" in prompt:
+            return "law"
+        elif "노동법" in prompt or "근로기준법" in prompt:
+            return "노동법"
+        elif "판례" in prompt:
+            return "prec"
+        else:
+            return None
+
+    # 법령정보 호출 API
+    def search_legal_info(self, category, prompt):
+        url = "http://www.law.go.kr/DRF/lawService.do"
+        params = {
+            "OC" : self.legal_api_key,
+            "target" : category,
+            "query" : prompt,
+            "type" : "json"
+        }
+        response = requests.get(url, params=params)
+        if response.status_code == 200:
+            data = response.json()
+
+            # API 응답 데이터에서 적절한 정보를 추출하여 반환
+            if data and "result" in data:
+                return data["result"][0].get("법령명한글", "관련 정보를 찾을 수 없습니다.")
+        return "관련 법령 정보를 찾을 수 없습니다."
 
     def search_database(self, prompt):
         conn = mysql.connector.connect(**self.db_config)
