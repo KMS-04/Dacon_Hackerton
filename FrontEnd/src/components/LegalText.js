@@ -4,6 +4,7 @@ import './LegalText';
 
 const LegalText = () => {
   const [categoryFilter, setCategoryFilter] = useState('전체'); // 초기 카테고리 설정
+  const [categoriesVisible, setCategoriesVisible] = useState(false); // 카테고리 가시성 상태
 
   // 예시 법률 데이터
   const legalDocuments = [
@@ -26,9 +27,17 @@ const LegalText = () => {
     setCategoryFilter(category);
   };
 
+  // 카테고리 토글 핸들러
+  const toggleCategories = () => {
+    setCategoriesVisible(!categoriesVisible);
+  };
+
   return (
     <div className="legal-text">
-      <div className="categories">
+      <button className={`toggle-categories ${categoriesVisible ? 'active' : ''}`} onClick={toggleCategories}>
+        <div className={`arrow ${categoriesVisible ? 'up' : 'down'}`}></div>
+      </button>
+      <div className={`categories ${categoriesVisible ? 'visible' : ''}`}>
         <h3>카테고리</h3>
         <ul>
           {categories.map((category, index) => (
