@@ -3,6 +3,7 @@ import openai
 from dotenv import load_dotenv
 import os
 import requests
+import xml.etree.ElementTree as ET
 
 class GptAPI():
     def __init__(self, model, api_key, db_config, legal_api_key):
@@ -66,16 +67,24 @@ class GptAPI():
             "OC" : self.legal_api_key,
             "target" : category,
             "query" : prompt,
-            "type" : "json"
+            "type" : "xml"
         }
         response = requests.get(url, params=params)
+        # 서버 응답 상태 코드 확인
         if response.status_code == 200:
-            data = response.json()
+            try:
+                data = ET.fromstring(response.content)
 
-            # API 응답 데이터에서 적절한 정보를 추출하여 반환
-            if data and "result" in data:
-                return data["result"][0].get("법령명한글", "관련 정보를 찾을 수 없습니다.")
-        return "관련 법령 정보를 찾을 수 없습니다."
+                # API 응답 데이터에서 적절한 정보를 추출하여 반환
+                # 구체화 필요( 수정 )
+                if data and "result" in data:
+                    return data["result"][0].get("법령명한글", "관련 정보를 찾을 수 없습니다.")
+                else:
+                    return "관련 정보를 찾을 수 없습니다."
+            except ET.ParseError:
+                return "서버로부터 유효한 JSON 응답을 받지 못했습니다."
+        else:
+            return f"API 요청이 실패했습니다. 상태 코드: {response.status_code}"
 
     def search_database(self, prompt):
         conn = mysql.connector.connect(**self.db_config)
@@ -113,3 +122,13 @@ db_config = {
 }
 
 gpt = GptAPI(model, api_key, db_config, legal_api_key)
+
+if __name__ == "__main__":
+    while True:
+        prompt = input("사용자: ")
+        if prompt.lower() == "exit":
+            print("챗봇을 종료합니다.")
+            break
+
+        response = gpt.get_message(prompt)
+        print(f"챗봇: {response}")
