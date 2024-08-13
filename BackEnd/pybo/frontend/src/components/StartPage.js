@@ -19,7 +19,7 @@ const StartPage = () => {
 
   return (
     <div className="container">
-      <img src="/logo.png" alt="Logo" className="logo" />
+      <img src="/logo.png" alt="logo" className="logo" />
       <div className="buttons-container">
         <button className="button" onClick={handleLoginClick}>Login</button>
         <button className="button" onClick={handleSignUpClick}>Sign Up</button>

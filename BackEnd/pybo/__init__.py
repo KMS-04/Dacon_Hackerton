@@ -12,7 +12,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 
 def create_app():
-    app = Flask(__name__, static_folder='frontend/build/', template_folder='frontend/build')
+    app = Flask(__name__, static_folder='frontend/build', template_folder='frontend/build')
     app.config.from_object(Config)
 
     db.init_app(app)
@@ -21,4 +21,8 @@ def create_app():
     from .views import main_views
     app.register_blueprint(main_views.bp)
 
-    return app
+    @app.route('/')
+    def index():
+        return app.send_static_file('image.html')
+
+    return app  
