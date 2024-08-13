@@ -1,9 +1,0 @@
-/* ChatbotPage.css */
-
-.chatbot-page {
-  display: flex;
-  height: 100vh;
-  width: 100%;
-}
-
-/* LegalText 및 Chatbot은 각자 자신의 CSS 파일에서 스타일을 가져옵니다 */
