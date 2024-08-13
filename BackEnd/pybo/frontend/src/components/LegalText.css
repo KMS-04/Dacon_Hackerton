@@ -1,4 +1,9 @@
 /* LegalText 컴포넌트 스타일 */
+
+div{
+  white-space: pre-wrap;
+}
+
 .legal-text {
   flex: 1; /* 좌우 배치에서 좁은 비율을 차지 */
   display: flex;
