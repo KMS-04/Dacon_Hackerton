@@ -10,6 +10,9 @@
   box-sizing: border-box; /* 패딩과 보더를 요소의 크기에 포함시킴 */
 }
 
+div{
+  white-space: pre-wrap;
+}
   .chat-window {
     flex: 1;
     overflow-y: auto;

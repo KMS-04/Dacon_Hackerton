@@ -24,10 +24,7 @@ yarn-debug.log*
 yarn-error.log*
 =======
 node_modules
-<<<<<<< HEAD
-.venv/
-venvs/
-AppData/
+
 =======
 >>>>>>> 0224b24d47bc523d4c2e6a67f2a607924c7bae70
 >>>>>>> 5bb4a2e9edfe58142e07b3b2b4067cba50acd66a
