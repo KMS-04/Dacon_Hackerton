@@ -35,10 +35,10 @@ def chat():
 
 @bp.route('/manifest.json', methods=['GET'])
 def manifest():
-    return send_from_directory('frontend/build', 'manifest.json')
+    return send_from_directory('FrontEnd/build', 'manifest.json')
 
 @bp.route('/<path:path>', methods=['GET'])
 def static_proxy(path):
     if path.startswith('static/'):
-        return send_from_directory('frontend/build', path)
-    return send_from_directory('frontend/build', 'index.html')
+        return send_from_directory('FrontEnd/build', path)
+    return send_from_directory('FrontEnd/build', 'index.html')
