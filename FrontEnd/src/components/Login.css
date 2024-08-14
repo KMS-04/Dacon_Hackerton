@@ -1,0 +1,82 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #ffffff;
+  padding: 20px;
+  transform: translateY(-20px); /* 전체 컨테이너를 20px 위로 올림 */
+}
+
+.login-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  transform: translateY(-20px); /* 타이틀을 20px 위로 올림 */
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 20px;
+  transform: translateY(-20px); /* 폼을 20px 위로 올림 */
+}
+
+.login-input {
+  width: 320px; /* 입력란 가로 길이 320px */
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.login-submit-button {
+  width: 320px; /* 버튼 가로 길이 320px */
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  background-color: #005B5C;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.social-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  transform: translateY(-20px); /* 소셜 로그인 버튼을 20px 위로 올림 */
+}
+
+.social-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  background-color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.social-icon {
+  width: 35px;
+  height: 35px;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  text-decoration: underline;
+  margin: -10px 0 10px 0; /* 입력란과 버튼 사이에 위치 */
+  text-align: left;
+  width: 320px; /* 에러 메시지의 가로 길이도 320px로 설정 */
+}

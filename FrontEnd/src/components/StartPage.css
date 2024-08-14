@@ -1,0 +1,46 @@
+/* StartPage.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #ffffff;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  transform: translateY(-80px);
+}
+
+.logo {
+  width: 450px;
+  margin-bottom: -30px; /* 여유 공간 추가 */
+  position: relative; /* 필요에 따라 위치 조정 */
+  top: 0; /* 위치를 위에서부터 시작 */
+  left: 0; /* 위치를 왼쪽에서부터 시작 */
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button {
+  width: 200px;
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #005B5C;
+  color: #fff;
+  border: none;
+  text-align: center;
+}
+
+.button:hover {
+  background-color: #004547;
+}

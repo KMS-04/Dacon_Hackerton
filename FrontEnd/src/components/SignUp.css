@@ -1,0 +1,118 @@
+/* SignUp.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #ffffff;
+  position: relative;
+}
+
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff; /* 버튼 색상을 흰색으로 변경 */
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.back-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.input {
+  width: 320px;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.submit-button {
+  width: 320px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  background-color: #005B5C;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.social-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.social-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  background-color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  width: 35px;
+  height: 35px;
+}
+
+.error-text {
+  color: red;
+  font-size: 12px;
+  text-decoration: underline;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  text-align: left;
+  width: 320px;
+}
+
+.password-error-text {
+  color: red;
+  font-size: 12px;
+  text-decoration: underline;
+  margin-top: 2px;
+  text-align: left;
+  width: 320px;
+}
+
+.redirect-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.redirect-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  background-color: #005B5C;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
