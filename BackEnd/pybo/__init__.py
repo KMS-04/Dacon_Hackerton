@@ -30,6 +30,22 @@ def create_app():
     def index():
         return app.send_static_file('index.html')
 
+    @app.route('/logo.png')
+    def serve_logo():
+        return send_from_directory(app.static_folder, 'logo.png')
+
+    @app.route('/back-icon.png')
+    def serve_back_icon():
+        return send_from_directory(app.static_folder, 'back-icon.png')
+    
+    @app.route('/google-icon.png')
+    def serve_google_icon():
+        return send_from_directory(app.static_folder, 'google-icon.png')
+    
+    @app.route('/naver-icon.png')
+    def serve_naver_icon():
+        return send_from_directory(app.static_folder, 'naver-icon.png')
+
     @app.route('/static/<path:filename>')
     def serve_static_files(filename):
         return send_from_directory(app.static_folder, filename)
