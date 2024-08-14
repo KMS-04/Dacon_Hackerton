@@ -13,15 +13,21 @@ load_dotenv(dotenv_path='C:/projects/myproject/BackEnd/.env')
 db = SQLAlchemy()
 migrate = Migrate()
 
+
 def create_app():
     app = Flask(__name__,
                 static_folder=os.path.abspath('../FrontEnd/build/static'),  # 정적 파일 경로
                 template_folder=os.path.abspath('../FrontEnd/build'))  # 템플릿 파일 경로
-    
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///yourdatabase.db'
+    app.config['SECRET_KEY'] = 'your secret key'
     app.config.from_object(Config)
 
     db.init_app(app)
     migrate.init_app(app, db)
+
+    from .auth import bp as auth_bp
+    app.register_blueprint(auth_bp)
 
     from .views import main_views
     app.register_blueprint(main_views.bp)
@@ -37,11 +43,11 @@ def create_app():
     @app.route('/back-icon.png')
     def serve_back_icon():
         return send_from_directory(app.static_folder, 'back-icon.png')
-    
+
     @app.route('/google-icon.png')
     def serve_google_icon():
         return send_from_directory(app.static_folder, 'google-icon.png')
-    
+
     @app.route('/naver-icon.png')
     def serve_naver_icon():
         return send_from_directory(app.static_folder, 'naver-icon.png')

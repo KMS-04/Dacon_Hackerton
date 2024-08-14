@@ -34,7 +34,7 @@ const SignUp = () => {
     window.location.href = 'http://localhost:5000/login/naver';
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     let valid = true;
@@ -59,9 +59,22 @@ const SignUp = () => {
       setShowPassword(true);
     } else if (valid && showPassword) {
       console.log('Sign Up with email and password:', email, password);
-      // 회원가입 로직 추가 후 성공 시:
-      setIsSignUpComplete(true); // 회원가입 완료 상태로 업데이트
-      setTimeout(() => navigate('/login'), 3000); // 3초 후 로그인 페이지로 이동
+      try {
+        const response = await axios.post('http://localhost:5000/auth/signup', {
+          email,
+          password
+        });
+
+        if (response.status === 200) {
+          setIsSignUpComplete(true); // 회원가입 완료 상태로 업데이트
+          setTimeout(() => navigate('/login'), 3000); // 3초 후 로그인 페이지로 이동
+        }
+      } catch (error) {
+        console.error('Sign Up error:', error);
+        if (error.response && error.response.data.error) {
+          setEmailError(error.response.data.error);
+        }
+      }
     }
   };
 

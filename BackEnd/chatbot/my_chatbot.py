@@ -5,27 +5,28 @@ import os
 import requests
 import xml.etree.ElementTree as ET
 
-class GptAPI():
+class GptAPI:
     def __init__(self, model, api_key, db_config, legal_api_key):
         self.messages = [{"role": "system", "content": "You are an AI assistant that provides legal advice based on labor laws."}]
         self.model = model
         self.api_key = api_key
         self.db_config = db_config
         self.legal_api_key = legal_api_key
+        openai.api_key = self.api_key  # API 키를 초기화에서 설정
 
     def get_message(self, prompt):
-        response = openai.chat.completions.create(
+        response = openai.ChatCompletion.create(
             model=self.model,
             messages=self.messages + [{"role": "user", "content": prompt}]
         )
-        return response.choices[0].message.content
+        return response['choices'][0]['message']['content']
 
     def get_law_info(self, keyword):
         params = {
-            'OC' : self.legal_api_key,
-            'target' : 'law',
-            'query' : keyword,
-            'type' : 'xml'
+            'OC': self.legal_api_key,
+            'target': 'law',
+            'query': keyword,
+            'type': 'xml'
         }
         response = requests.get(legal_url, params=params)
         if response.status_code == 200:
@@ -41,11 +42,11 @@ class GptAPI():
                 if law_names:
                     return law_names[0]
             except ET.ParseError as e:
-                print(f"XML 파싱 에러 : {e}")
+                print(f"XML 파싱 에러: {e}")
                 return None
         else:
             return None
-        
+
     def chatbot_response(self, prompt):
         gpt_response = self.get_message(prompt)
 
@@ -56,7 +57,7 @@ class GptAPI():
 
         if law_name:
             return f"{gpt_response}\n\n관련 법률: {law_name}"
-        
+
         return f"{gpt_response}\n\n관련 법률 정보를 찾을 수 없습니다."
 
     def search_database(self, prompt):
