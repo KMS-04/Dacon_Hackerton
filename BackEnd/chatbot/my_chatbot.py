@@ -30,10 +30,12 @@ class GptAPI():
         response = requests.get(legal_url, params=params)
         if response.status_code == 200:
             try:
-                root = ET.fromstring(response.content)
+                content = response.content.decode('utf-8')
+                print(content)
+                root = ET.fromstring(content)
                 law_names = []
 
-                for law in root.findall(".//법령명"):
+                for law in root.findall(".//키워드"):
                     law_names.append(law.text)
 
                 if law_names:
@@ -47,7 +49,8 @@ class GptAPI():
     def chatbot_response(self, prompt):
         gpt_response = self.get_message(prompt)
 
-        keyword = "노동"
+        # 추후 수정 가능
+        keyword = "근로기준법"
 
         law_name = self.get_law_info(keyword)
 
