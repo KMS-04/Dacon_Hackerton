@@ -9,6 +9,11 @@
 # testing
 /coverage
 
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+
 # production
 #/build
 
