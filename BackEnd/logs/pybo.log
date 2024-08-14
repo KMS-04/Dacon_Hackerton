@@ -119,3 +119,4 @@ Traceback (most recent call last):
 jinja2.exceptions.TemplateNotFound: index.html
 2024-08-15 01:39:02,068 INFO: Pybo startup [in C:\Users\LG\OneDrive\πŸ≈¡ »≠∏È\react\myapp\BackEnd\pybo\__init__.py:52]
 2024-08-15 01:42:23,055 INFO: Pybo startup [in C:\Users\LG\OneDrive\πŸ≈¡ »≠∏È\react\myapp\BackEnd\pybo\__init__.py:52]
+2024-08-15 01:50:35,141 INFO: Pybo startup [in C:\Users\LG\OneDrive\πŸ≈¡ »≠∏È\react\myapp\BackEnd\pybo\__init__.py:63]
