@@ -14,77 +14,47 @@ class GptAPI():
         self.legal_api_key = legal_api_key
 
     def get_message(self, prompt):
-        self.messages.append({"role": "user", "content": prompt})
-
-        # prompt에서 분류 필요(헌법, 노동법, 판례 등)
-        category = self.classify_prompt(prompt)
-
-        # 분류 후 국가 법령정보 API 호출
-        if category:
-            response = self.search_legal_info(category, prompt)
-            if response:
-                self.messages.append({"role" : "system", "content" : response})
-                return response
-
-        # 데이터베이스에서 응답 검색
-        response = self.search_database(prompt)
-        if response:
-            self.messages.append({"role": "system", "content": response})
-            return response
-
-        openai.api_key = self.api_key
         response = openai.chat.completions.create(
             model=self.model,
-            messages=self.messages
+            messages=self.messages + [{"role": "user", "content": prompt}]
         )
-        #stream = self.client.chat.completions.create(
-        #    model=self.model,
-        #    messages=self.messages
-        #)
+        return response.choices[0].message.content
 
-        result = response.choices[0].message.content    # 오류 수정 완
-        self.messages.append({"role": "assistant", "content": result})
-
-        # 응답을 데이터베이스에 저장
-        self.save_to_database(prompt, result)
-        return result
-
-    def classify_prompt(self, prompt):
-        # 분류 로직 구현(구체화 필요)
-        if "헌법" in prompt:
-            return "law"
-        elif "노동법" in prompt or "근로기준법" in prompt:
-            return "노동법"
-        elif "판례" in prompt:
-            return "prec"
-        else:
-            return None
-
-    # 법령정보 호출 API
-    def search_legal_info(self, category, prompt):
-        url = "http://www.law.go.kr/DRF/lawService.do"
+    def get_law_info(self, keyword):
         params = {
-            "OC" : self.legal_api_key,
-            "target" : category,
-            "query" : prompt,
-            "type" : "xml"
+            'OC' : self.legal_api_key,
+            'target' : 'law',
+            'query' : keyword,
+            'type' : 'xml'
         }
-        response = requests.get(url, params=params)
-        # 서버 응답 상태 코드 확인
+        response = requests.get(legal_url, params=params)
         if response.status_code == 200:
             try:
-                data = ET.fromstring(response.content)
+                root = ET.fromstring(response.content)
+                law_names = []
 
-                # API 응답 데이터에서 적절한 정보를 추출하여 반환
-                # 구체화 필요( 수정 )
-                if data and "result" in data:
-                    return data["result"][0].get("법령명한글", "관련 정보를 찾을 수 없습니다.")
-                else:
-                    return "관련 정보를 찾을 수 없습니다."
-            except ET.ParseError:
-                return "서버로부터 유효한 JSON 응답을 받지 못했습니다."
+                for law in root.findall(".//법령명"):
+                    law_names.append(law.text)
+
+                if law_names:
+                    return law_names[0]
+            except ET.ParseError as e:
+                print(f"XML 파싱 에러 : {e}")
+                return None
         else:
-            return f"API 요청이 실패했습니다. 상태 코드: {response.status_code}"
+            return None
+        
+    def chatbot_response(self, prompt):
+        gpt_response = self.get_message(prompt)
+
+        keyword = "노동"
+
+        law_name = self.get_law_info(keyword)
+
+        if law_name:
+            return f"{gpt_response}\n\n관련 법률: {law_name}"
+        
+        return f"{gpt_response}\n\n관련 법률 정보를 찾을 수 없습니다."
 
     def search_database(self, prompt):
         conn = mysql.connector.connect(**self.db_config)
@@ -112,6 +82,7 @@ api_key = os.getenv("OPENAI_API_KEY")
 model = "gpt-3.5-turbo"
 
 legal_api_key = os.getenv("LEGAL_API_KEY")
+legal_url = 'http://www.law.go.kr/DRF/lawService.do'
 
 # MySQL 데이터베이스 설정
 db_config = {
@@ -130,5 +101,5 @@ if __name__ == "__main__":
             print("챗봇을 종료합니다.")
             break
 
-        response = gpt.get_message(prompt)
+        response = gpt.chatbot_response(prompt)
         print(f"챗봇: {response}")
