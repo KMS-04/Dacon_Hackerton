@@ -2,6 +2,8 @@ import mysql.connector
 import openai
 from dotenv import load_dotenv
 import os
+import requests
+import xml.etree.ElementTree as ET
 
 class GptAPI():
     def __init__(self, model, api_key, db_config, legal_api_key):
@@ -12,33 +14,47 @@ class GptAPI():
         self.legal_api_key = legal_api_key
 
     def get_message(self, prompt):
-        self.messages.append({"role": "user", "content": prompt})
-
-        # prompt에서 분류 필요(헌법, 노동법, 판례 등)
-        
-
-        # 데이터베이스에서 응답 검색
-        response = self.search_database(prompt)
-        if response:
-            self.messages.append({"role": "system", "content": response})
-            return response
-
-        openai.api_key = self.api_key
         response = openai.chat.completions.create(
             model=self.model,
-            messages=self.messages
+            messages=self.messages + [{"role": "user", "content": prompt}]
         )
-        #stream = self.client.chat.completions.create(
-        #    model=self.model,
-        #    messages=self.messages
-        #)
+        return response.choices[0].message.content
 
-        result = response.choices[0].message.content    # 오류 수정 완
-        self.messages.append({"role": "assistant", "content": result})
+    def get_law_info(self, keyword):
+        params = {
+            'OC' : self.legal_api_key,
+            'target' : 'law',
+            'query' : keyword,
+            'type' : 'xml'
+        }
+        response = requests.get(legal_url, params=params)
+        if response.status_code == 200:
+            try:
+                root = ET.fromstring(response.content)
+                law_names = []
 
-        # 응답을 데이터베이스에 저장
-        self.save_to_database(prompt, result)
-        return result
+                for law in root.findall(".//법령명"):
+                    law_names.append(law.text)
+
+                if law_names:
+                    return law_names[0]
+            except ET.ParseError as e:
+                print(f"XML 파싱 에러 : {e}")
+                return None
+        else:
+            return None
+        
+    def chatbot_response(self, prompt):
+        gpt_response = self.get_message(prompt)
+
+        keyword = "노동"
+
+        law_name = self.get_law_info(keyword)
+
+        if law_name:
+            return f"{gpt_response}\n\n관련 법률: {law_name}"
+        
+        return f"{gpt_response}\n\n관련 법률 정보를 찾을 수 없습니다."
 
     def search_database(self, prompt):
         conn = mysql.connector.connect(**self.db_config)
@@ -66,6 +82,7 @@ api_key = os.getenv("OPENAI_API_KEY")
 model = "gpt-3.5-turbo"
 
 legal_api_key = os.getenv("LEGAL_API_KEY")
+legal_url = 'http://www.law.go.kr/DRF/lawService.do'
 
 # MySQL 데이터베이스 설정
 db_config = {
@@ -76,3 +93,13 @@ db_config = {
 }
 
 gpt = GptAPI(model, api_key, db_config, legal_api_key)
+
+if __name__ == "__main__":
+    while True:
+        prompt = input("사용자: ")
+        if prompt.lower() == "exit":
+            print("챗봇을 종료합니다.")
+            break
+
+        response = gpt.chatbot_response(prompt)
+        print(f"챗봇: {response}")
