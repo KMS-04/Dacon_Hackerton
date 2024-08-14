@@ -1,5 +1,5 @@
 // src/App.js
-// npm start
+
 import React from 'react';
 import LegalText from './components/LegalText';
 import Chatbot from './components/Chatbot';
